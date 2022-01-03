@@ -6,12 +6,11 @@ const (
 	ScreenHeight        = 32
 	MemorySize          = 4096
 	AvailableMemorySize = MemorySize - BufferSize
-	FontSetSize         = 80
 )
 
 type ScreenBuffer = [ScreenHeight][ScreenWidth]uint8
 
-var FontSet = [FontSetSize]uint8{
+var FontSet = []uint8{
 	0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
 	0x20, 0x60, 0x20, 0x20, 0x70, // 1
 	0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2

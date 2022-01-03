@@ -16,7 +16,8 @@ func SkpVx(opcode chip8.Opcode) Instruction {
 }
 
 func (i *skpVx) Execute(c *chip8.Chip8) error {
-	key := c.Keys[i.opcode.Vx]
+	value := c.VX[i.opcode.Vx]
+	key := c.Keys[value]
 	if key > 0 {
 		c.ProgramCounter += 4
 	} else {

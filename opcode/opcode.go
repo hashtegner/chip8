@@ -1,8 +1,6 @@
 package opcode
 
 import (
-	"log"
-
 	"github.com/hashtegner/chip8/chip8"
 	"github.com/hashtegner/chip8/instruction"
 )
@@ -54,7 +52,7 @@ var opcodesTable = map[uint16]instructionDecoder{
 	0x2000: instruction.CallAddr,
 	0x3000: instruction.SEVxByte,
 	0x4000: instruction.SNEVxByte,
-	0x5000: instruction.SEVXVY,
+	0x5000: instruction.SEVxVy,
 	0x6000: instruction.LDVxByte,
 	0x7000: instruction.AddVxByte,
 	0x8000: func(opcode chip8.Opcode) instruction.Instruction {
@@ -92,11 +90,7 @@ func Fetch(c *chip8.Chip8) chip8.Opcode {
 
 // Decode an opcode instruction
 func Decode(opcode chip8.Opcode) instruction.Instruction {
-	inst := decodeFromTable(opcodesTable, opcode, opcode.Decoded)
-
-	log.Printf("%s", inst.String())
-
-	return inst
+	return decodeFromTable(opcodesTable, opcode, opcode.Decoded)
 }
 
 // decodeFromTable decode opcode from given table and return struction

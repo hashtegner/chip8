@@ -50,7 +50,7 @@ func (g *Graphics) Draw(buffer chip8.ScreenBuffer) error {
 		for colIndex := 0; colIndex < len(row); colIndex++ {
 			var color uint32
 
-			if buffer[rowIndex][colIndex] > 0 {
+			if buffer[rowIndex][colIndex] == 1 {
 				color = 0xffffff
 			} else {
 				color = 0x0

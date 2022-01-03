@@ -42,6 +42,14 @@ func (e *Emulation) ShouldDraw() bool {
 	return e.chip8.Draw
 }
 
+func (e *Emulation) Key(key uint8, down bool) {
+	if down {
+		e.chip8.Keys[key] = 1
+	} else {
+		e.chip8.Keys[key] = 0
+	}
+}
+
 func (e *Emulation) Cycle() error {
 	op := opcode.Fetch(e.chip8)
 	inst := opcode.Decode(op)
@@ -63,7 +71,7 @@ func (e *Emulation) Tick() {
 
 // initializeMemory load fontset into chip8 memory
 func initializeMemory(c *chip8.Chip8) {
-	for i := 0; i < chip8.FontSetSize; i++ {
+	for i := 0; i < len(chip8.FontSet); i++ {
 		c.Memory[i] = chip8.FontSet[i]
 	}
 }
