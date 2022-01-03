@@ -28,19 +28,22 @@ var opcodes8000Table = map[uint16]instructionDecoder{
 
 var opcodesE000Table = map[uint16]instructionDecoder{
 	0x009E: instruction.SkpVx,
-	0x00A1: instruction.SkpnVx,
+	0x00A1: instruction.SknpVx,
 }
 
 var opcodesF000Table = map[uint16]instructionDecoder{
-	0x0007: instruction.LDVxDt,
-	0x000A: instruction.LDVxK,
-	0x0015: instruction.LDDtVx,
-	0x0018: instruction.LDStVx,
-	0x001E: instruction.AddIVx,
-	0x0029: instruction.LDFVx,
-	0x0033: instruction.LDBVx,
-	0x0055: instruction.LDIVx,
-	0x0065: instruction.LDVxI,
+	0x07: instruction.LDVxDt,
+	0x0A: instruction.LDVxK,
+	0x15: instruction.LDDtVx,
+	0x18: instruction.LDStVx,
+	0x1E: instruction.AddIVx,
+	0x29: instruction.LDFVx,
+	0x33: instruction.LDBVx,
+	0x55: instruction.LDIVx,
+	0x65: instruction.LDVxI,
+	0x90: func(opcode chip8.Opcode) instruction.Instruction {
+		return instruction.Undefined(opcode)
+	},
 }
 
 var opcodesTable = map[uint16]instructionDecoder{
@@ -50,7 +53,7 @@ var opcodesTable = map[uint16]instructionDecoder{
 	0x1000: instruction.JPAddr,
 	0x2000: instruction.CallAddr,
 	0x3000: instruction.SEVxByte,
-	0x4000: instruction.SENVXByte,
+	0x4000: instruction.SNEVxByte,
 	0x5000: instruction.SEVXVY,
 	0x6000: instruction.LDVxByte,
 	0x7000: instruction.AddVxByte,

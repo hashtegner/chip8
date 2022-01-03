@@ -1,8 +1,31 @@
 package instruction
 
-import "github.com/hashtegner/chip8/chip8"
+import (
+	"fmt"
 
-// SkpnVx - Ex9E - Skip next instruction if key with the value of Vx is pressed.
+	"github.com/hashtegner/chip8/chip8"
+)
+
+type skpVx struct {
+	opcode chip8.Opcode
+}
+
+// SkpVx - Ex9E - Ex9E - Skip next instruction if key with the value of Vx is pressed.
 func SkpVx(opcode chip8.Opcode) Instruction {
-	return Undefined(opcode)
+	return &skpVx{opcode: opcode}
+}
+
+func (i *skpVx) Execute(c *chip8.Chip8) error {
+	key := c.Keys[i.opcode.Vx]
+	if key > 0 {
+		c.ProgramCounter += 4
+	} else {
+		c.ProgramCounter += 2
+	}
+
+	return nil
+}
+
+func (i *skpVx) String() string {
+	return fmt.Sprintf("SKP Vx=0x%x", i.opcode.Vx)
 }
