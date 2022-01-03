@@ -14,9 +14,9 @@ import (
 )
 
 func main() {
-	args := os.Args
+	args := os.Args[1:]
 	if len(args) == 0 {
-		panic("You need to inform rom file")
+		log.Fatal("You need to inform rom file")
 	}
 
 	rom := os.Args[1]
