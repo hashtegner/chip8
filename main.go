@@ -14,9 +14,16 @@ import (
 )
 
 func main() {
+	args := os.Args
+	if len(args) == 0 {
+		panic("You need to inform rom file")
+	}
+
+	rom := os.Args[1]
+
 	rand.Seed(time.Now().UTC().Unix())
 
-	cartridge, err := cartridge.New("roms/chip8-picture.ch8")
+	cartridge, err := cartridge.New(rom)
 	if err != nil {
 		log.Fatal(err)
 	}
