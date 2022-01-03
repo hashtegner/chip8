@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"math/rand"
+	"os"
 	"time"
 
 	"github.com/hashtegner/chip8/cartridge"
@@ -31,6 +32,9 @@ func main() {
 		log.Fatal(err)
 	}
 
+	clockRate := time.Duration(16 * time.Millisecond)
+	clock := time.Now()
+
 loop:
 	for {
 		for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
@@ -48,6 +52,13 @@ loop:
 
 		if emulation.ShouldDraw() {
 			graphics.Draw(emulation.ScreenBuffer())
+		}
+
+		now := time.Now()
+
+		if now.Sub(clock) > clockRate {
+			emulation.Tick()
+			clock = now
 		}
 	}
 }

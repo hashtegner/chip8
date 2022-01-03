@@ -49,6 +49,18 @@ func (e *Emulation) Cycle() error {
 	return inst.Execute(e.chip8)
 }
 
+func (e *Emulation) Tick() {
+	c := e.chip8
+
+	if c.DelayTimer > 0 {
+		c.DelayTimer -= 1
+	}
+
+	if c.SoundTimer > 0 {
+		c.SoundTimer -= 1
+	}
+}
+
 // initializeMemory load fontset into chip8 memory
 func initializeMemory(c *chip8.Chip8) {
 	for i := 0; i < chip8.FontSetSize; i++ {
