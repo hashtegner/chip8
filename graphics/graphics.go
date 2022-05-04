@@ -1,6 +1,8 @@
 package graphics
 
 import (
+	"fmt"
+
 	"github.com/hashtegner/chip8/chip8"
 	"github.com/pkg/errors"
 	"github.com/veandco/go-sdl2/sdl"
@@ -9,17 +11,18 @@ import (
 const screenDelta = 10
 
 type Graphics struct {
-	window  *sdl.Window
-	surface *sdl.Surface
+	gameTitle string
+	window    *sdl.Window
+	surface   *sdl.Surface
 }
 
-func New(title string, width, height int32) (*Graphics, error) {
+func New(gameTitle string, width, height int32) (*Graphics, error) {
 	if err := sdl.Init(sdl.INIT_EVERYTHING); err != nil {
 		return nil, errors.Wrap(err, "error on start std2")
 	}
 
 	window, err := sdl.CreateWindow(
-		title,
+		gameTitle,
 		sdl.WINDOWPOS_UNDEFINED,
 		sdl.WINDOWPOS_UNDEFINED,
 		width*screenDelta,
@@ -36,7 +39,11 @@ func New(title string, width, height int32) (*Graphics, error) {
 		return nil, errors.Wrap(err, "error on get surface from window")
 	}
 
-	return &Graphics{window, surface}, nil
+	return &Graphics{gameTitle, window, surface}, nil
+}
+
+func (g *Graphics) DisplayFPS(fps int64) {
+	g.window.SetTitle(fmt.Sprintf("%s - %dfps", g.gameTitle, fps))
 }
 
 func (g *Graphics) Draw(buffer chip8.ScreenBuffer) error {

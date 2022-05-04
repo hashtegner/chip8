@@ -41,6 +41,18 @@ func main() {
 
 loop:
 	for {
+		start := time.Now()
+		err := emulation.Cycle()
+		if err != nil {
+			log.Printf("error on execute cycle: %v\n", err)
+		}
+
+		if emulation.ShouldDraw() {
+			graphics.Draw(emulation.ScreenBuffer())
+		}
+
+		emulation.Tick()
+
 		for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
 			switch evt := event.(type) {
 			case *sdl.QuitEvent:
@@ -86,16 +98,9 @@ loop:
 			}
 		}
 
-		err := emulation.Cycle()
-		if err != nil {
-			log.Printf("error on execute cycle: %v\n", err)
-		}
+		sdl.Delay(500 / 30)
 
-		if emulation.ShouldDraw() {
-			graphics.Draw(emulation.ScreenBuffer())
-		}
-
-		emulation.Tick()
-		sdl.Delay(500 / 60)
+		fps := (1 * time.Second) / time.Since(start)
+		graphics.DisplayFPS(fps.Nanoseconds())
 	}
 }
